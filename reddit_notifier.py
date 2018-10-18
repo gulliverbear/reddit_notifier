@@ -51,7 +51,23 @@ def run_freebie_bot(current_submissions):
     that weren't in the last 50 submissions
     these will be considered 'new' and an email will be sent
     '''
-    # to do
+    new_submissions_50 = check_new_submissions('freebies',50)
+    
+    if current_submissions:  
+        new_submissions_20 = new_submissions_50[:20]
+        found_new = [i for i in new_submissions_20 if i not in current_submissions]
+        
+        if found_new:
+            print 'Found new:'
+            print found_new
+            email_text = 'New freebies found:\n'
+            for i in found_new:
+                email_text += i + '\n'
+            send_email(email_text)
+            print('Sent an email with new freebies')
+    
+    # return the 50 current submissions to compare to next time    
+    return new_submissions_50
         
 def check_new_submissions(subreddit_name, number_to_check):
     '''
